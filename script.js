@@ -1,73 +1,98 @@
 const resumeData = [
     {
-        category: "EDUCATION",
+        id: "edu",
+        date: "2028",
+        label: "EDU",
         title: "Edgemont High School",
-        date: "Expected 2028",
-        summary: "3.98 GPA | Honors in Math, English, Latin",
-        details: "Graduated Kumon Math (College-level Calculus by 9th grade). Enrolled in AP Computer Science & AP European History. Harvard Debate Council Workshop (2024, 2025)."
+        subtitle: "Academic Excellence & Advanced Placement",
+        content: `<ul>
+                    <li><strong>GPA:</strong> 3.98 (Unweighted)</li>
+                    <li><strong>Honors:</strong> Math, English, and Latin.</li>
+                    <li><strong>Kumon:</strong> Completed college-level Calculus by 9th grade.</li>
+                    <li><strong>Summer:</strong> Harvard University Debate Council Workshop (2024, 2025).</li>
+                  </ul>`
     },
     {
-        category: "VOLUNTEER",
-        title: "3D Printing Instructor",
-        date: "2025 – Present",
-        summary: "Teaching CAD fundamentals at Edgemont.",
-        details: "Conduct weekly sessions teaching children 3D modeling. Facilitate workshops translating complex engineering into age-appropriate lessons."
-    },
-    {
-        category: "DEBATE",
-        title: "Varsity Representative",
-        date: "2023 – Present",
-        summary: "National Ranking: Woodward Quarterfinalist.",
-        details: "Earned multiple Top Speaker awards. Expert in Lincoln-Douglas format and complex data analysis."
-    },
-    {
-        category: "ENTREPRENEUR",
+        id: "robotics",
+        date: "2022-24",
+        label: "TECH",
         title: "Solarflare Robotics",
-        date: "2022 – 2024",
-        summary: "Co-Founder & YouTube Lead.",
-        details: "Managed fundraising and operations. Led software coding (Java/Python) and hardware assembly."
+        subtitle: "Co-Founder & Lead Engineer",
+        content: `<ul>
+                    <li>Managed end-to-end team operations and community outreach.</li>
+                    <li>Led all software coding (Java/Python) and hardware assembly.</li>
+                    <li>Developed a YouTube channel to teach robotics logic.</li>
+                  </ul>`
     },
     {
-        category: "BUSINESS",
+        id: "debate",
+        date: "2023-26",
+        label: "DEBATE",
+        title: "Edgemont Speech & Debate",
+        subtitle: "National Quarterfinalist (Woodward)",
+        content: `<ul>
+                    <li>Ranked as a Quarterfinalist in a major national tournament (Atlanta).</li>
+                    <li>Expertise: Lincoln-Douglas format, complex data analysis, and persuasive communication.</li>
+                    <li>Multiple 'Top Speaker' awards in varsity circuits.</li>
+                  </ul>`
+    },
+    {
+        id: "volunteer",
+        date: "2025",
+        label: "VOL",
+        title: "3D Printing Instructor",
+        subtitle: "Chinese School at Edgemont",
+        content: `<p>Conducting weekly Sunday sessions teaching CAD (Computer-Aided Design) to children, translating engineering principles into accessible lessons.</p>`
+    },
+    {
+        id: "biz",
+        date: "2020-26",
+        label: "BIZ",
         title: "Math Monkey & Barky Bites",
-        date: "2020 – Present",
-        summary: "Tutoring & E-commerce Founder.",
-        details: "Math Monkey: Full curriculum management for younger students. Barky Bites: Co-founded dog treat company at age 10; handled production and sales."
+        subtitle: "Early Entrepreneurial Ventures",
+        content: `<ul>
+                    <li><strong>Math Monkey:</strong> Independent tutoring business for younger students.</li>
+                    <li><strong>Barky Bites:</strong> Co-founded a dog treat company at age 10; managed local production and sales.</li>
+                  </ul>`
     },
     {
-        category: "SKILLS",
-        title: "Core Competencies",
-        date: "Current",
-        summary: "Finance, CS, & Performance.",
-        details: "Technical: Python, Java, Excel, CAD. Arts: Saxophonist (National Jazz Festival 2025), Professional DJ. Athletics: Varsity Lacrosse. Martial Arts: Junior Black Belt (1st Poom)."
+        id: "skills",
+        date: "NOW",
+        label: "SKILLS",
+        title: "Technical & Artistic Core",
+        subtitle: "Multi-Disciplinary Background",
+        content: `<ul>
+                    <li><strong>Technical:</strong> Python, Java, Excel, 3D Modeling (CAD).</li>
+                    <li><strong>Arts:</strong> Saxophonist (National Jazz Festival), Professional DJ.</li>
+                    <li><strong>Athletics:</strong> Varsity Lacrosse, Junior Black Belt (Taekwondo).</li>
+                    <li><strong>Languages:</strong> Fluent English & Hindi; Intermediate Latin.</li>
+                  </ul>`
     }
 ];
 
-const timeline = document.getElementById('circular-timeline');
-const modal = document.getElementById('info-modal');
-const modalDetails = document.getElementById('modal-details');
+const orbit = document.getElementById('orbit');
+const detailOverlay = document.getElementById('detail-overlay');
+const detailBody = document.getElementById('detail-body');
 
+// Generate Blips
 resumeData.forEach(item => {
-    const node = document.createElement('div');
-    node.className = 'node';
-    node.innerHTML = `
-        <div class="circle">${item.category}</div>
-        <p style="font-weight:600; font-size:0.8rem; margin:0;">${item.title}</p>
-        <p style="font-size:0.7rem; color:#888;">${item.date}</p>
+    const blip = document.createElement('div');
+    blip.className = 'blip';
+    blip.innerHTML = `
+        <span style="font-size:10px; font-weight:bold;">${item.label}</span>
+        <div class="blip-date">${item.date}</div>
     `;
-    node.onclick = () => {
-        modalDetails.innerHTML = `
-            <p class="subtitle" style="margin-bottom:10px;">${item.category}</p>
-            <h2 style="font-family:'Playfair Display'; font-size:2rem;">${item.title}</h2>
-            <p><em>${item.date}</em></p>
-            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-            <p><strong>Overview:</strong> ${item.summary}</p>
-            <p>${item.details}</p>
-        `;
-        modal.style.display = 'block';
-    };
-    timeline.appendChild(node);
+    blip.onclick = () => showDetails(item);
+    orbit.appendChild(blip);
 });
 
-document.querySelector('.close-btn').onclick = () => modal.style.display = 'none';
-window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; };
+function showDetails(item) {
+    detailBody.innerHTML = `
+        <h3 style="text-transform:uppercase; letter-spacing:2px; font-size:0.8rem; color:#666;">${item.subtitle}</h3>
+        <h2 style="font-family:'Playfair Display'; font-size:2.5rem; margin-top:10px;">${item.title}</h2>
+        <div style="margin-top:30px; line-height:1.8;">${item.content}</div>
+    `;
+    detailOverlay.style.display = 'block';
+}
+
+document.querySelector('.close-btn').onclick = () => detailOverlay.style.display = 'none';
