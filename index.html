@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vivaan Shahani | Interactive Resume</title>
-    <!-- Tailwind CSS for styling -->
+    
+    <!-- 1. Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Import Map to tell the browser where to find React and Icons -->
+    <!-- 2. Babel for translating React code in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- 3. Import Map: Tells browser where to get React libraries -->
     <script type="importmap">
     {
       "imports": {
@@ -17,8 +21,9 @@
       }
     }
     </script>
+    
+    <!-- Custom Animations -->
     <style>
-      /* Custom animations usually handled by config, added inline here for safety */
       @keyframes blob {
         0% { transform: translate(0px, 0px) scale(1); }
         33% { transform: translate(30px, -50px) scale(1.1); }
@@ -34,13 +39,22 @@
       .animation-delay-4000 {
         animation-delay: 4s;
       }
+      /* Hide scrollbar for cleaner modal */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
-    <!-- The React Application Logic -->
-    <script type="module">
+    <!-- 4. The React Application Logic -->
+    <!-- type="text/babel" is crucial here -->
+    <script type="text/babel" data-type="module">
         import React, { useState, useEffect } from 'react';
         import { createRoot } from 'react-dom/client';
         import { 
@@ -418,7 +432,7 @@
                     onClick={() => setActiveId(null)}
                   ></div>
 
-                  <div className="relative bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl animate-scale-in flex flex-col">
+                  <div className="relative bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl animate-scale-in flex flex-col no-scrollbar">
                     {(() => {
                       const item = RESUME_DATA.find(i => i.id === activeId);
                       return (
@@ -499,7 +513,6 @@
           );
         };
 
-        // Render the app
         const root = createRoot(document.getElementById('root'));
         root.render(<ResumeApp />);
     </script>
