@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect } from 'react';
 import { 
   Briefcase, 
@@ -20,9 +21,7 @@ import {
   FileText
 } from 'lucide-react';
 
-/**
- * DATA SOURCE
- */
+
 const RESUME_DATA = [
   {
     id: 'education',
@@ -480,3 +479,4 @@ const ResumeApp = () => {
 };
 
 export default ResumeApp;
+
